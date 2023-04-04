@@ -1,5 +1,4 @@
 # YandexPlayerPython
 Unofficial Yandex Music player for MacOS / Windows, which written in Python with PyQt6
 
-
-https://m.media-amazon.com/images/M/MV5BZWYxMmY5OGUtZmVmMC00NjYxLThkM2ItOTc0ZThjYjljZTVlXkEyXkFqcGdeQXVyNzg2ODI2OTU@._V1_.jpg
+[![image](https://user-images.githubusercontent.com/69029551/229908277-fb744dd2-f95f-4069-bbb8-d4347b76cc9f.png)
