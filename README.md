@@ -1,4 +1,4 @@
-# YandexPlayerPython
+# AudioPlayerPython
 Ultimate Music player for MacOS / Windows, which written in Python with PyQt6
 Simple, beutiful, fast
 
