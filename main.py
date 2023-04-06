@@ -33,7 +33,7 @@ if __name__ == "__main__":
     # creating thread
     t1 = threading.Thread(target=print_square, args=(10,))
     t2 = threading.Thread(target=print_cube, args=(10,))
-    t3 = threading.Thread(target=hard_math, args=(3932345234, 10))
+    t3 = threading.Thread(target=hard_math, args=(3, 10))
     t4 = threading.Thread(target=speedy)
  	
     # starting thread 1
