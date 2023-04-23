@@ -100,18 +100,21 @@ class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDi
 	def lengh_of_track(self, x):
 
 		a = mixer.Sound(self.playlist[x])
-		song_length = a.get_length() / 60
-		round(song_length, 3)
-
-		song_length = float("%.2f" % song_length)
-		print(song_length)
-		self.pb_timeline.setRange(0, song_length)
+		song_length = a.get_length()
+		print(round(song_length))
 		
-		song_lenght_str = str(song_length).replace('.',':')
+		# поулчаем продолжительность трека
+		minutes, seconds = divmod(song_length, 60)
+		minutes = round(minutes)
+		seconds = round(seconds)
 
-		self.lbl_endTime.setText(song_lenght_str)
+		self.pb_timeline.setRange(0, round(song_length))
+		print('{:02d}:{:02d}'.format(minutes, seconds))
+
+		self.lbl_endTime.setText('{:02d}:{:02d}'.format(minutes, seconds))
 
 		if self.is_music_play:
+			
 			self.thread.start()
 			self.s_mainWin.emit(self.is_music_play)
 		else:
