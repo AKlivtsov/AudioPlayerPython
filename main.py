@@ -2,7 +2,7 @@
 import sys
 from PyQt6 import QtWidgets, QtCore 
 from PyQt6.QtWidgets import QDialog, QApplication, QGraphicsDropShadowEffect
-from PyQt6.QtCore import QPropertyAnimation, QEasingCurve, QPoint, QTimer, QThread
+from PyQt6.QtCore import QPropertyAnimation, QEasingCurve, QPoint, QTimer, QThread, Signal, Slot
 
 # аудио
 from pygame import mixer
@@ -13,7 +13,7 @@ import mainUI
 
 # поток отсчета времени трека
 class TimerThread(QtCore.QThread):
-	s_timer = QtCore.pyqtSignal(float)
+	s_timer = QtCore.pyqtSignal(str)
 
 	def  __init__(self, parent=None):
 		QtCore.QThread.__init__(self, parent)
@@ -22,15 +22,20 @@ class TimerThread(QtCore.QThread):
 
 		while MainWindow.is_music_play:
 			cur_time = mixer.music.get_pos()
-			cur_time = cur_time / 1000 /60
-			cur_time = float("%.2f" % cur_time)
-			print(cur_time)
+			cur_time = cur_time / 1000
+			print(round(cur_time))
+
+			minutes, seconds = divmod(cur_time, 60)
+			minutes = round(minutes)
+			seconds = round(seconds)
+
+			cur_time = '{:02d}:{:02d}'.format(minutes, seconds)
 			self.s_timer.emit(cur_time)
 			self.msleep(500)
 
 
 # основное окно
-class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDialog):
+class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDialog, QtCore.Slot):
 	s_mainWin = QtCore.pyqtSignal(bool)
 
 	def __init__(self):
@@ -119,13 +124,10 @@ class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDi
 			self.s_mainWin.emit(self.is_music_play)
 		else:
 			pass
-			
+	
+	@Slot(str)		
 	def pb_time(self, cur_time):
 		self.pb_timeline.setValue(cur_time)
-
-	@classmethod
-	def is_music_play(cls):
-		return self.is_music_play
 
 
 
