@@ -35,7 +35,7 @@ QFrame{
 	border-radius: 5px;
 }
 
-QProgressBar {
+QSLider {
 	background-color: rgb(25, 25, 25);
 }
 
@@ -134,25 +134,41 @@ QPushButton:pressed {
       <string>TextLabel</string>
      </property>
     </widget>
-    <widget class="QProgressBar" name="pb_timeline">
+    <widget class="QLabel" name="lbl_endTime">
+     <property name="geometry">
+      <rect>
+       <x>320</x>
+       <y>30</y>
+       <width>31</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>00:00</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QSlider" name="hs_timeline">
+     <property name="geometry">
+      <rect>
+       <x>49</x>
+       <y>30</y>
+       <width>261</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lbl_curTime">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>341</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="value">
-      <number>24</number>
-     </property>
-    </widget>
-    <widget class="QLabel" name="lbl_endTime">
-     <property name="geometry">
-      <rect>
-       <x>310</x>
-       <y>10</y>
-       <width>41</width>
+       <width>31</width>
        <height>21</height>
       </rect>
      </property>

@@ -19,7 +19,7 @@ QFrame{
 	border-radius: 5px;
 }
 
-QProgressBar {
+QHorizontalSLider {
 	background-color: rgb(25, 25, 25);
 }
 

@@ -2,7 +2,7 @@
 import sys
 from PyQt6 import QtWidgets, QtCore 
 from PyQt6.QtWidgets import QDialog, QApplication, QGraphicsDropShadowEffect
-from PyQt6.QtCore import QPropertyAnimation, QEasingCurve, QPoint, QTimer, QThread, Signal, Slot
+from PyQt6.QtCore import QPropertyAnimation, QEasingCurve, QPoint, QTimer, QThread
 
 # аудио
 from pygame import mixer
@@ -13,30 +13,32 @@ import mainUI
 
 # поток отсчета времени трека
 class TimerThread(QtCore.QThread):
-	s_timer = QtCore.pyqtSignal(str)
+	s_timer = QtCore.pyqtSignal(int)
 
 	def  __init__(self, parent=None):
 		QtCore.QThread.__init__(self, parent)
 
+		self.is_music_play = None
+
 	def run(self):
 
-		while MainWindow.is_music_play:
+		while self.is_music_play == True:
 			cur_time = mixer.music.get_pos()
 			cur_time = cur_time / 1000
 			print(round(cur_time))
 
-			minutes, seconds = divmod(cur_time, 60)
-			minutes = round(minutes)
-			seconds = round(seconds)
+			self.s_timer.emit(round(cur_time))
+			self.sleep(1)
 
-			cur_time = '{:02d}:{:02d}'.format(minutes, seconds)
-			self.s_timer.emit(cur_time)
-			self.msleep(500)
+	def change_state_True(self):
+		self.is_music_play = True
+
+	def change_state_False(self):
+		self.is_music_play = False
 
 
 # основное окно
-class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDialog, QtCore.Slot):
-	s_mainWin = QtCore.pyqtSignal(bool)
+class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDialog):
 
 	def __init__(self):
 		super(MainWindow, self).__init__()
@@ -67,23 +69,28 @@ class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDi
 		if self.is_music_play == None:
 			mixer.music.load(self.playlist[0])
 			mixer.music.play()
-			self.lengh_of_track(0)
 			self.track_num += 1
 			self.is_music_play = True
+			self.thread.change_state_True()
+			self.lengh_of_track(0)
 
 		elif self.is_music_play == True:
 			mixer.music.pause()
 			self.is_music_play = False
+			self.thread.change_state_False()
 
 		elif self.is_music_play == False:
 			mixer.music.unpause()
 			self.is_music_play = True
+			self.thread.change_state_True()
+			self.thread.start()
 
 	def change_track(self):
 
 		if self.playlist:
 
 			if self.track_num == 0:
+				self.thread.change_state_True()
 				mixer.music.load(self.playlist[self.track_num])
 				self.lengh_of_track(self.track_num)
 				self.track_num += 1
@@ -91,12 +98,14 @@ class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDi
 
 			else:
 				try:
+					self.thread.change_state_True()
 					mixer.music.load(self.playlist[self.track_num])
 					self.lengh_of_track(self.track_num)
 					self.track_num += 1
 					mixer.music.play()
 
 				except IndexError:
+					self.thread.change_state_True()
 					mixer.music.load(self.playlist[0])
 					self.lengh_of_track(0)
 					self.track_num = 1
@@ -118,14 +127,8 @@ class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDi
 
 		self.lbl_endTime.setText('{:02d}:{:02d}'.format(minutes, seconds))
 
-		if self.is_music_play:
-			
-			self.thread.start()
-			self.s_mainWin.emit(self.is_music_play)
-		else:
-			pass
-	
-	@Slot(str)		
+		self.thread.start()
+
 	def pb_time(self, cur_time):
 		self.pb_timeline.setValue(cur_time)
 
