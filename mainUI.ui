@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>380</width>
+    <width>390</width>
     <height>140</height>
    </rect>
   </property>
@@ -72,7 +72,7 @@ QPushButton:pressed {
      <rect>
       <x>130</x>
       <y>10</y>
-      <width>121</width>
+      <width>131</width>
       <height>50</height>
      </rect>
     </property>
@@ -83,7 +83,7 @@ QPushButton:pressed {
    <widget class="QPushButton" name="btn_next">
     <property name="geometry">
      <rect>
-      <x>259</x>
+      <x>270</x>
       <y>10</y>
       <width>111</width>
       <height>50</height>
@@ -98,7 +98,7 @@ QPushButton:pressed {
      <rect>
       <x>10</x>
       <y>70</y>
-      <width>361</width>
+      <width>371</width>
       <height>61</height>
      </rect>
     </property>
@@ -139,7 +139,7 @@ QPushButton:pressed {
       <rect>
        <x>320</x>
        <y>30</y>
-       <width>31</width>
+       <width>41</width>
        <height>21</height>
       </rect>
      </property>
@@ -153,10 +153,10 @@ QPushButton:pressed {
     <widget class="QSlider" name="hs_timeline">
      <property name="geometry">
       <rect>
-       <x>49</x>
-       <y>30</y>
-       <width>261</width>
-       <height>22</height>
+       <x>59</x>
+       <y>31</y>
+       <width>250</width>
+       <height>20</height>
       </rect>
      </property>
      <property name="orientation">
@@ -168,7 +168,7 @@ QPushButton:pressed {
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>31</width>
+       <width>41</width>
        <height>21</height>
       </rect>
      </property>
@@ -176,7 +176,7 @@ QPushButton:pressed {
       <string>00:00</string>
      </property>
      <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
     </widget>
    </widget>

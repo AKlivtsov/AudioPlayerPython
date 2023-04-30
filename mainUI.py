@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(380, 140)
+        MainWindow.resize(390, 140)
         MainWindow.setStyleSheet("QMainWindow {\n"
 "    background-color: rgb(25, 25, 25);\n"
 "    color: rgb(130, 130, 130);\n"
@@ -57,13 +57,13 @@ class Ui_MainWindow(object):
         self.btn_prev.setGeometry(QtCore.QRect(10, 10, 111, 50))
         self.btn_prev.setObjectName("btn_prev")
         self.btn_pause = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.btn_pause.setGeometry(QtCore.QRect(130, 10, 121, 50))
+        self.btn_pause.setGeometry(QtCore.QRect(130, 10, 131, 50))
         self.btn_pause.setObjectName("btn_pause")
         self.btn_next = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.btn_next.setGeometry(QtCore.QRect(259, 10, 111, 50))
+        self.btn_next.setGeometry(QtCore.QRect(270, 10, 111, 50))
         self.btn_next.setObjectName("btn_next")
         self.frame = QtWidgets.QFrame(parent=self.centralwidget)
-        self.frame.setGeometry(QtCore.QRect(10, 70, 361, 61))
+        self.frame.setGeometry(QtCore.QRect(10, 70, 371, 61))
         self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame.setObjectName("frame")
@@ -74,16 +74,16 @@ class Ui_MainWindow(object):
         self.lbl_trackName.setGeometry(QtCore.QRect(100, 10, 201, 21))
         self.lbl_trackName.setObjectName("lbl_trackName")
         self.lbl_endTime = QtWidgets.QLabel(parent=self.frame)
-        self.lbl_endTime.setGeometry(QtCore.QRect(320, 30, 31, 21))
+        self.lbl_endTime.setGeometry(QtCore.QRect(320, 30, 41, 21))
         self.lbl_endTime.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|QtCore.Qt.AlignmentFlag.AlignTrailing|QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.lbl_endTime.setObjectName("lbl_endTime")
         self.hs_timeline = QtWidgets.QSlider(parent=self.frame)
-        self.hs_timeline.setGeometry(QtCore.QRect(49, 30, 261, 22))
+        self.hs_timeline.setGeometry(QtCore.QRect(59, 31, 250, 20))
         self.hs_timeline.setOrientation(QtCore.Qt.Orientation.Horizontal)
         self.hs_timeline.setObjectName("hs_timeline")
         self.lbl_curTime = QtWidgets.QLabel(parent=self.frame)
-        self.lbl_curTime.setGeometry(QtCore.QRect(10, 30, 31, 21))
-        self.lbl_curTime.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight|QtCore.Qt.AlignmentFlag.AlignTrailing|QtCore.Qt.AlignmentFlag.AlignVCenter)
+        self.lbl_curTime.setGeometry(QtCore.QRect(10, 30, 41, 21))
+        self.lbl_curTime.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.lbl_curTime.setObjectName("lbl_curTime")
         MainWindow.setCentralWidget(self.centralwidget)
 
