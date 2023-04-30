@@ -25,7 +25,6 @@ class TimerThread(QtCore.QThread):
 		while self.is_music_play == True:
 			cur_time = mixer.music.get_pos()
 			cur_time = cur_time / 1000
-			print(round(cur_time))
 
 			self.s_timer.emit(round(cur_time))
 			self.sleep(1)
@@ -46,7 +45,7 @@ class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDi
 
 		# настройки окна
 		self.setWindowTitle("AudioThing")
-		self.pb_timeline.setValue(0)
+		self.hs_timeline.setValue(0)
 
 		# кнопки
 		self.btn_next.clicked.connect(self.change_track)
@@ -55,11 +54,13 @@ class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDi
 
 		# потоки
 		self.thread = TimerThread()
-		self.thread.s_timer.connect(self.pb_time)
+		self.thread.s_timer.connect(self.hs_time)
+		self.thread.s_timer.connect(self.end_await)
+		self.thread.s_timer.connect(self.lbl_cur_time)
 
 		# аудио
 		mixer.init()
-		global is_music_play
+		self.song_length = 0
 		self.is_music_play = None
 		self.track_num = 0
 		self.playlist = ["assets/music_samples/blah.mp3", "assets/music_samples/edamame.mp3"]
@@ -114,24 +115,37 @@ class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDi
 	def lengh_of_track(self, x):
 
 		a = mixer.Sound(self.playlist[x])
-		song_length = a.get_length()
-		print(round(song_length))
+		self.song_length = a.get_length()
 		
 		# поулчаем продолжительность трека
-		minutes, seconds = divmod(song_length, 60)
+		minutes, seconds = divmod(self.song_length, 60)
 		minutes = round(minutes)
 		seconds = round(seconds)
 
-		self.pb_timeline.setRange(0, round(song_length))
-		print('{:02d}:{:02d}'.format(minutes, seconds))
+		self.hs_timeline.setRange(0, round(self.song_length))
 
 		self.lbl_endTime.setText('{:02d}:{:02d}'.format(minutes, seconds))
 
 		self.thread.start()
 
-	def pb_time(self, cur_time):
-		self.pb_timeline.setValue(cur_time)
+	def hs_time(self, cur_time):
+		self.hs_timeline.setValue(cur_time)
 
+	def lbl_cur_time(self, cur_time):
+		minutes, seconds = divmod(cur_time, 60)
+		minutes = round(minutes)
+		seconds = round(seconds)
+
+		self.lbl_curTime.setText('{:02d}:{:02d}'.format(minutes, seconds))
+
+	def end_await(self, cur_time):
+		minutes, seconds = divmod(self.song_length, 60)
+		minutes = round(minutes * 60)
+		seconds = round(seconds)
+		act_time = minutes + seconds
+
+		if cur_time + 1 == act_time:
+			self.change_track()
 
 
 if __name__ == '__main__':
