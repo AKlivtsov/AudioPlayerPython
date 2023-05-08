@@ -11,6 +11,9 @@ from mutagen.mp3 import MP3
 # окно 
 import mainUI
 
+# прочее
+import os
+
 # поток отсчета времени трека
 class TimerThread(QtCore.QThread):
 	s_timer = QtCore.pyqtSignal(int)
@@ -37,7 +40,7 @@ class TimerThread(QtCore.QThread):
 
 
 # основное окно
-class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDialog):
+class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QDialog):
 
 	def __init__(self):
 		super(MainWindow, self).__init__()
@@ -51,6 +54,7 @@ class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDi
 		self.btn_next.clicked.connect(self.change_track)
 		self.btn_prev.clicked.connect(self.change_track)
 		self.btn_pause.clicked.connect(self.play)
+		self.hs_timeline.valueChanged.connect(self.wind_up_track)
 
 		# потоки
 		self.thread = TimerThread()
@@ -70,10 +74,12 @@ class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDi
 		if self.is_music_play == None:
 			mixer.music.load(self.playlist[0])
 			mixer.music.play()
+			# mixer.music.rewind() # для абсолютного позиционирвоания трека в wind_up_track
 			self.track_num += 1
 			self.is_music_play = True
 			self.thread.change_state_True()
 			self.lengh_of_track(0)
+			self.filename(0)
 
 		elif self.is_music_play == True:
 			mixer.music.pause()
@@ -94,6 +100,7 @@ class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDi
 				self.thread.change_state_True()
 				mixer.music.load(self.playlist[self.track_num])
 				self.lengh_of_track(self.track_num)
+				self.filename(self.track_num)
 				self.track_num += 1
 				mixer.music.play()
 
@@ -102,6 +109,7 @@ class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDi
 					self.thread.change_state_True()
 					mixer.music.load(self.playlist[self.track_num])
 					self.lengh_of_track(self.track_num)
+					self.filename(self.track_num)
 					self.track_num += 1
 					mixer.music.play()
 
@@ -109,6 +117,7 @@ class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDi
 					self.thread.change_state_True()
 					mixer.music.load(self.playlist[0])
 					self.lengh_of_track(0)
+					self.filename(0)
 					self.track_num = 1
 					mixer.music.play()
 
@@ -117,7 +126,6 @@ class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDi
 		a = mixer.Sound(self.playlist[x])
 		self.song_length = a.get_length()
 		
-		# поулчаем продолжительность трека
 		minutes, seconds = divmod(self.song_length, 60)
 		minutes = round(minutes)
 		seconds = round(seconds)
@@ -127,6 +135,10 @@ class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDi
 		self.lbl_endTime.setText('{:02d}:{:02d}'.format(minutes, seconds))
 
 		self.thread.start()
+
+	def filename(self, x):
+		trackname = os.path.basename(self.playlist[x]).split('.')[0]
+		self.lbl_trackName.setText(trackname)
 
 	def hs_time(self, cur_time):
 		self.hs_timeline.setValue(cur_time)
@@ -146,6 +158,12 @@ class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QtCore.QTimer, QDi
 
 		if cur_time + 1 == act_time:
 			self.change_track()
+
+	def wind_up_track(self, value):
+		mixer.music.set_pos(value)
+
+class FileWindow(QtWidgets.QMainWindow,QDialog):
+	pass
 
 
 if __name__ == '__main__':

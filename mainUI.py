@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'MainUI.ui'
+# Form implementation generated from reading ui file 'mainUI.ui'
 #
 # Created by: PyQt6 UI code generator 6.5.0
 #
@@ -71,7 +71,7 @@ class Ui_MainWindow(object):
         self.lbl_nowPlaying.setGeometry(QtCore.QRect(10, 10, 91, 20))
         self.lbl_nowPlaying.setObjectName("lbl_nowPlaying")
         self.lbl_trackName = QtWidgets.QLabel(parent=self.frame)
-        self.lbl_trackName.setGeometry(QtCore.QRect(100, 10, 201, 21))
+        self.lbl_trackName.setGeometry(QtCore.QRect(100, 10, 191, 21))
         self.lbl_trackName.setObjectName("lbl_trackName")
         self.lbl_endTime = QtWidgets.QLabel(parent=self.frame)
         self.lbl_endTime.setGeometry(QtCore.QRect(320, 30, 41, 21))
@@ -85,6 +85,9 @@ class Ui_MainWindow(object):
         self.lbl_curTime.setGeometry(QtCore.QRect(10, 30, 41, 21))
         self.lbl_curTime.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeading|QtCore.Qt.AlignmentFlag.AlignLeft|QtCore.Qt.AlignmentFlag.AlignVCenter)
         self.lbl_curTime.setObjectName("lbl_curTime")
+        self.btn_addFile = QtWidgets.QPushButton(parent=self.frame)
+        self.btn_addFile.setGeometry(QtCore.QRect(300, 0, 71, 32))
+        self.btn_addFile.setObjectName("btn_addFile")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -97,6 +100,7 @@ class Ui_MainWindow(object):
         self.btn_pause.setText(_translate("MainWindow", "play"))
         self.btn_next.setText(_translate("MainWindow", "next"))
         self.lbl_nowPlaying.setText(_translate("MainWindow", "Now playing:"))
-        self.lbl_trackName.setText(_translate("MainWindow", "TextLabel"))
+        self.lbl_trackName.setText(_translate("MainWindow", "Nothing..."))
         self.lbl_endTime.setText(_translate("MainWindow", "00:00"))
         self.lbl_curTime.setText(_translate("MainWindow", "00:00"))
+        self.btn_addFile.setText(_translate("MainWindow", "add track"))
