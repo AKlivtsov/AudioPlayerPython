@@ -1,20 +1,17 @@
-# база
 import sys
+import os
 from PyQt6 import QtWidgets, QtCore 
 from PyQt6.QtWidgets import QDialog, QApplication, QGraphicsDropShadowEffect
 from PyQt6.QtCore import QPropertyAnimation, QEasingCurve, QPoint, QTimer, QThread
 
-# аудио
+# audio
 from pygame import mixer
 from mutagen.mp3 import MP3
 
-# окно 
+# buttons, etc
 import mainUI
 
-# прочее
-import os
-
-# поток отсчета времени трека
+# for slider
 class TimerThread(QtCore.QThread):
 	s_timer = QtCore.pyqtSignal(int)
 
@@ -39,30 +36,29 @@ class TimerThread(QtCore.QThread):
 		self.is_music_play = False
 
 
-# основное окно
 class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QDialog):
 
 	def __init__(self):
 		super(MainWindow, self).__init__()
 		self.setupUi(self)
 
-		# настройки окна
+		# window setting
 		self.setWindowTitle("AudioThing")
 		self.hs_timeline.setValue(0)
 
-		# кнопки
+		# buttons
 		self.btn_next.clicked.connect(self.change_track)
 		self.btn_prev.clicked.connect(self.change_track)
 		self.btn_pause.clicked.connect(self.play)
 		self.hs_timeline.valueChanged.connect(self.wind_up_track)
 
-		# потоки
+		# threads
 		self.thread = TimerThread()
 		self.thread.s_timer.connect(self.hs_time)
 		self.thread.s_timer.connect(self.end_await)
 		self.thread.s_timer.connect(self.lbl_cur_time)
 
-		# аудио
+		# audio
 		mixer.init()
 		self.song_length = 0
 		self.is_music_play = None
@@ -74,7 +70,7 @@ class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QDialog):
 		if self.is_music_play == None:
 			mixer.music.load(self.playlist[0])
 			mixer.music.play()
-			# mixer.music.rewind() # для абсолютного позиционирвоания трека в wind_up_track
+			# mixer.music.rewind() # for absolute possition track in wind_up_track
 			self.track_num += 1
 			self.is_music_play = True
 			self.thread.change_state_True()
@@ -162,6 +158,7 @@ class MainWindow(QtWidgets.QMainWindow, mainUI.Ui_MainWindow, QDialog):
 	def wind_up_track(self, value):
 		mixer.music.set_pos(value)
 
+# pls, write it
 class FileWindow(QtWidgets.QMainWindow,QDialog):
 	pass
 
